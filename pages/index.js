@@ -4,7 +4,8 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useIdentityContext } from "react-netlify-identity";
-export default function Home() {
+
+function Login() {
   const { loginUser, signupUser } = useIdentityContext();
   const formRef = React.useRef();
   const [msg, setMsg] = React.useState("");
@@ -13,14 +14,14 @@ export default function Home() {
     const email = formRef.current.email.value;
     const password = formRef.current.password.value;
 
-    signupUser(email, password, Object, true)
+    signupUser(email, password)
       .then((user) => {
         console.log("Success! Signed up", user);
+        navigate("/dashboard");
       })
-      .catch(
-        (err) => console.error("error", err) || setMsg("Error: " + err.message)
-      );
+      .catch((err) => console.error(err) || setMsg("Error: " + err.message));
   };
+
   return (
     <form
       ref={formRef}
@@ -58,3 +59,4 @@ export default function Home() {
     </form>
   );
 }
+export default Login;
